@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" ng-app="todo">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!--<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>-->
+    <script src="angular.js"></script>
+    <script src="jquery.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body ng-controller="mainCtrl" ng-keyup="delete()">
+    <div class="kuang">
+        <div class="left">
+            <list-case >
+                <li class="xian">
+                    <span class="icond"></span>
+                    <span class="tixing">提醒事项</span>
+                    <span class="xiala"></span>
+                    <span class="jia" ng-click="tianjia()"></span>
+                </li>
+                <li class="xian1">
+                    <div class="clock"></div>
+                    <div class="jihua">已计划</div>
+                </li>
+                <li data-id="{{v.id}}" ng-repeat="v in nates" ng-click="setcurrent(v)"><div class="dian" ><div class="yuan {{v.theme}}"></div></div><div class="list"><span>{{v.title}}</span><input type="text" value="{{v.title}}" ng-model="v.title"> <div class="wuxian"></div></div> </li>
+            </list-case>
+            <ul>
+                <!--<li class=" black">-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan blue"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">-->
+                        <!--<span>提醒</span>-->
+                        <!--<input type="text" value="提醒">-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan green"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表2</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan yellow"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表3</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan tu"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表4</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan pink"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表5</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan orange"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表6</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan tian"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表7</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan zi"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表8</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="dian">-->
+                        <!--<div class="yuan blue"></div>-->
+                    <!--</div>-->
+                    <!--<div class="list">新列表9</div>-->
+                <!--</li>-->
+            </ul>
+        </div>
+        <div class="right">
+            <div class="dingbu">
+                <div class="inputs">
+                    <div class="sousuo"></div>
+                    <input type="text" placeholder="搜索所有提醒">
+                </div>
+                <div class="dingyou">
+                    <div class="wenhao">
+                        <div class="icon"></div>
+                        <div class="shu"></div>
+                    </div>
+                    <div class="xia"></div>
+                    <div class="names">张三</div>
+                </div>
+            </div>
+            <div class="xinliebiao">
+                <div class="wenzi {{current.theme}}">{{current.title}}</div>
+                <div class="xuan">选项</div>
+            </div>
+            <ul class="uls {current.theme}">
+                <div class="wancheng" ng-init="cc=true">
+                    <div class="sanjiao" ng-click="cc=!cc"></div>
+                    <div class="xiang">已完成:{{(current.todos|filter:{states:1}).length}}项</div>
+                    <span class="clear">清除已完成</span>
+                </div>
+                <li class='ding a {{current.theme}}' ng-repeat="v in current.todos|filter:{states:1}" ng-class="{hides:cc};">
+                    <div class="yuans" ng-click="v.states=0" >
+                        <div class="xiao2 {{current.theme}}">
+                            <div class="yanse {{current.theme}}"></div>
+                        </div>
+                    </div>
+                    <div class="boxx">
+                        <div class="text"><input type="text" value="{{v.title}}"></div>
+                        <div class="shanchu {{current.theme}}" ng-click="delete1(v.id)">删除</div>
+                    </div>
+                </li>
+                <div class="wancheng">
+                    <div class="sanjiao"></div>
+                    <div class="xiang">未完成：{{(current.todos|filter:{states:0}).length}}项</div>
+                </div>
+                <li class='ding {{current.theme}}' ng-repeat="v in current.todos|filter:{states:0}">
+                    <div class="yuans" ng-click="v.states=1; jiashang()">
+                        <div class="xiao3 {{current.theme}}"></div>
+                    </div>
+                    <div class="boxx">
+                        <div class="text"><input type="text" value="{{v.title}}" ng-model="v.title"></div>
+                        <div class="shanchu {{current.theme}}" ng-click="delete1(v.id)">删除</div>
+                    </div>
+                </li>
+                <input type="text"  ng-model="v.item" ng-keyup="addtodos($event)" class="inputt" placeholder="新项目...">
+            </ul>
+
+            <div  option-list>
+                <div class="shang">
+                    <input type="text" value="新列表9" ng-model="current.title" class="{{current.theme}}">
+                    <span>列表颜色</span>
+                    <ul>
+                        <li ng-repeat="v in colors"  ng-click="current.theme=v;"   class="liss">
+                        <div class="yuanxin {{v}}"></div>
+                    </li>
+                    </ul>
+                </div>
+                <div  class="xias">
+                    <div class="delete">删除</div>
+                    <div class="finish">完成</div>
+                    <div class="as"></div>
+                    <div class="res">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
